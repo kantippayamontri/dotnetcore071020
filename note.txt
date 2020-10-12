@@ -1,0 +1,48 @@
+*** Add AutoMapper ***
+dotnet add package AutoMapper.Extensions.Microsoft.DependencyInjection <- install AutoMapper
+add services.AddAutoMapper(typeof(Startup)); //AutoMapper <- add in Startup.cs
+add AutoMapperProfile in root level
+
+*** Entity Framework ***
+dotnet add package Microsoft.EntityFrameworkCore.SqlServer // install Entity Framework , can find in project file
+dotnet add package Microsoft.EntityFrameworkCore.Design //enable dotnet ef command
+1. make floder call Data
+2. make class name Datacontext
+3. in appsetting.json add "ConnectionStrings" <- database mean name of database that are not build
+4. add services.AddDbContext in Startup.cs in ConfigureServices function -> services.AddDbContext<Datacontext>(x => x.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+5. type in the terminal dotnet ef -h <- to see the command
+6. type dotnet ef migrations add InitialCreate <- it's our initial migration that will create the databse and all table.
+7. you will get a Migrations folder and get file xxxxx_initialCreate.cs
+    xxxxx_initialCreate
+        - up method
+            database when commit
+        - down method  
+            rollback database
+8. type dotnet ef database update <- run last migration and create database and table
+
+--- note ---
+when we add , update , delete in database we must save the change in the database 
+by type -> await this._datacontext.SaveChangesAsync();
+
+
+*** sql server express and sql server management tool ***
+1. install sql server express
+2. when install done .you will click install SSMT to install sql server management tool
+
+
+*** Authentication ***
+
+--- User class ---
+1. Add User.cs file that is the class
+2. add User in datacontext file
+3. type -> dotnet ef migrations add User
+4. type -> dotnet ef database update // to add table in real database 
+5. add List<Character> in User class and add User in Character class
+6. type -> dotnet ef migrations add UserCharacterRelation // to create relation
+7. type -> dotnet ef database update // to update the database
+
+
+
+*** command
+
+ctor -> make constructor
